@@ -3,6 +3,7 @@ import random
 import math
 import time
 import sys
+import os
 
 # difficulty levels
 easy = 5
@@ -43,7 +44,10 @@ index_y = 0
 total = 1
 score = 0
 
-game_over = False
+pygame.mixer.init()
+s = 'sound'
+crash = pygame.mixer.Sound(os.path.join(s, 'crash.mp3'))
+pop = pygame.mixer.Sound(os.path.join(s, 'pop.ogg'))
 
 food_width = 17
 food_height = 17
@@ -123,25 +127,30 @@ while loop:
 	if player_x > 580:
 		player_x_change = 0
 		player_x = 580
-		game_over = True
+		pygame.mixer.Sound.play(crash)
+       		gameOver()
 	elif player_x < 0:
 		player_x_change = 0
 		player_x = 0
-		game_over = True
+		pygame.mixer.Sound.play(crash)
+        	gameOver()
 	if player_y > 580:
 		player_y = 580
 		player_y_change = 0
-		game_over = True
+		pygame.mixer.Sound.play(crash)
+        	gameOver()
 	elif player_y < 0:
 		pllayery = 0
 		player_y_change = 0
-		game_over = True
+		pygame.mixer.Sound.play(crash)
+        	gameOver()
 
 	if collision(player_x, food_x, player_y, food_y):
 		food_x = random.choice(range(0, 580, 20))
 		food_y = random.choice(range(0, 580, 20))
 		total += 1
 		score = total - 1
+		pygame.mixer.Sound.play(pop)
 		showScore(1, white, 'consolas', 20)
 	if total > 1:
 		for x in range(1, total):
@@ -150,6 +159,7 @@ while loop:
 			player(playerx_position[index_x],
 				playery_position[index_y], player_width, player_height, player_color)
 			if collision(player_x, playerx_position[index_x], player_y, playery_position[index_y]):
+				pygame.mixer.Sound.play(crash)
 				gameOver()
 	
 	playerx_position.append(player_x)
