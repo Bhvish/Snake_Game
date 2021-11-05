@@ -116,9 +116,6 @@ while loop:
 				game_over = True
 	
 	if game_over is True:
-		time.sleep(2)
-		pygame.mixer.music.stop()
-
 		text = font.render(f'GAME OVER!  SCORE: {score} ', True, blue)
 		textRect = text.get_rect()
 		textRect.center = (width // 2, height // 2)
